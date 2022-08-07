@@ -5,8 +5,8 @@ function Navbar() {
    <>
      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container px-lg-5" >
-            <Link to="/">
-                <a className="navbar-brand" href="/">DXPSI</a>
+            <Link className="navbar-brand" to="/">
+              DXPSI
             </Link>
             </div>
         </nav>
