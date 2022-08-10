@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import UsersService from "../services/UsersService";
 import { useNavigate } from "react-router-dom";
+
 function ListUsers() {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
@@ -14,21 +15,33 @@ function ListUsers() {
     fetchData();
   }, []);
 
-  const deleteUser = (id) =>{
-    if(window.confirm('Are you sure you want to delete this user?')){
-      UsersService.deleteCustomer(id).then(res=>{
-
-        console.log(res);
-        window.location.reload(true); //reload page manually 
-
-      }).catch(error =>{
-        console.log(error);
-      })
-    }else{
+  const deleteUser = (id) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      UsersService.deleteCustomer(id)
+        .then((res) => {
+          console.log(res);
+          window.location.reload(true); //reload page manually
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
       navigate("/list");
     }
-  }
+  };
 
+  const toComponentB = (user) => {
+    //console.log(user);
+    navigate("/update", {
+      state: {
+        id: [user.id],
+        fullName: [user.fullName],
+        nickName: [user.nickName],
+        age: [user.age],
+        password: [user.password],
+      },
+    });
+  };
 
   return (
     <>
@@ -54,11 +67,19 @@ function ListUsers() {
                 <td>{user.password}</td>
                 <td>{user.id}</td>
                 <td>
-                  <button className="btn btn-info">Update</button>
                   <button
                     style={{ marginLeft: "10px" }}
                     className="btn btn-danger"
-                    onClick={ () => deleteUser(user.id)} 
+                    onClick={() => {
+                      toComponentB(user);
+                    }}
+                  >
+                    Update
+                  </button>
+                  <button
+                    style={{ marginLeft: "10px" }}
+                    className="btn btn-danger"
+                    onClick={() => deleteUser(user.id)}
                   >
                     Delete
                   </button>
